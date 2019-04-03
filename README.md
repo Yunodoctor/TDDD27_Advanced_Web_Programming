@@ -1,2 +1,2 @@
 The client-side that will be used in this project is Vue, and the server side that will be used is Express.js. The idea of the project is to do a webpage where the user can organise notes with different categories (similar to trello). 
-The user will be able to create an acount to organise the notes, add design the notes as wanted by the user. The user will also be able to archive notes that are finished. The user can favorise projects, pin notes and similar features. 
+The user will be able to create an acount to organize the notes, add design the notes as wanted by the user. The user will also be able to archive notes that are finished. The user can favorise projects, pin notes and similar features. 
