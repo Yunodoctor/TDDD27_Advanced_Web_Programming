@@ -22,8 +22,9 @@ class PostService {
   }
 
   // Create Post
-  static insertPost(text) {
+  static insertPost(headText, text) {
     return axios.post(url, {
+      headText,
       text
     });
   }

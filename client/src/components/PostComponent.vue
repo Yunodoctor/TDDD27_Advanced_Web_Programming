@@ -1,9 +1,14 @@
 <template>
   <div class="container">
     <h1>Latest Posts</h1>
+
     <div class="create-post">
+      <label for="create-post">Title</label>
+      <input type="headText" id="create-post" v-model="headText" placeholder="Title">
+
       <label for="create-post">Say Something...</label>
       <input type="text" id="create-post" v-model="text" placeholder="Create a post">
+
       <button v-on:click="createPost">Post!</button>
     </div>
     <hr>
@@ -18,6 +23,7 @@
         v-on:dblclick="deletePost(post._id)"
       >
         {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}` }}
+        <p class="headText">{{ post.headText }}</p>
         <p class="text">{{ post.text }}</p>
       </div>
     </div>
@@ -33,6 +39,7 @@ export default {
     return {
       posts: [],
       error: "",
+      headText: "",
       text: ""
     };
   },
@@ -45,7 +52,7 @@ export default {
   },
   methods: {
     async createPost() {
-      await PostService.insertPost(this.text);
+      await PostService.insertPost(this.headText, this.text);
       this.posts = await PostService.getPost();
     },
     async deletePost(id) {
@@ -89,7 +96,13 @@ div.created-at {
 }
 
 p.text {
-  font-size: 22px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+p.headText {
+  font-size: 18px;
   font-weight: 700;
   margin-bottom: 0;
 }
