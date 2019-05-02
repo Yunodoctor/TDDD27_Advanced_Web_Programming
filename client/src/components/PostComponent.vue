@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <h1>Latest Posts</h1>
-
+    <div class = "search-box">
+      <input type="text" v-model="search" placeholder="search posts">
+    </div>
     <div class="create-post">
       <label for="create-post">Title</label>
       <input type="headText" id="create-post" v-model="headText" placeholder="Title">
@@ -12,11 +14,11 @@
       <button v-on:click="createPost">Post!</button>
     </div>
     <hr>
-    <p class="error" v-if="error">{{ error }}</p>
+    <p class="error" v-if= "error">{{ error }}</p>
     <div class="posts-container">
       <div
         class="post"
-        v-for="(post, index) in posts"
+        v-for="(post, index) in filteredPosts"
         v-bind:item="posts"
         v-bind:index="index"
         v-bind:key="post._id"
@@ -38,9 +40,10 @@ export default {
   data() {
     return {
       posts: [],
-      error: "",
-      headText: "",
-      text: ""
+      error: '',
+      headText: '',
+      text: '',
+      search:''
     };
   },
   async created() {
@@ -50,14 +53,22 @@ export default {
       this.error = err.message;
     }
   },
+    computed: {
+    filteredPosts: function()
+    {
+      return this.posts.filter((post) => {
+        return post.text.toLowerCase().includes(this.search.toLowerCase()); //post.text.match(this.search);
+      });
+    }
+  },
   methods: {
     async createPost() {
       await PostService.insertPost(this.headText, this.text);
-      this.posts = await PostService.getPost();
+      this.posts = await PostService.getPosts();
     },
     async deletePost(id) {
       await PostService.deletePost(id);
-      this.posts = await PostService.getPost();
+      this.posts = await PostService.getPosts();
     }
   }
 };
@@ -93,6 +104,10 @@ div.created-at {
   background-color: darkgreen;
   color: white;
   font-size: 13px;
+}
+div.search-box{
+  position: relative;
+  padding-bottom: 20px;
 }
 
 p.text {
