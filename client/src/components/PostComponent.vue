@@ -25,7 +25,10 @@
         v-on:dblclick="deletePost(post._id)"
       >
         {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}` }}
-        <p class="headText">{{ post.headText }}</p>
+        <p class="headText">
+          <input type="checkbox" v-on:change="markComplete"><!-- ADDED THIS TO CHECKBOX-->
+          {{ post.headText }}
+        </p>
         <p class="text">{{ post.text }}</p>
       </div>
     </div>
@@ -53,11 +56,11 @@ export default {
       this.error = err.message;
     }
   },
-    computed: {
+  computed: {
     filteredPosts: function()
     {
       return this.posts.filter((post) => {
-        return post.text.toLowerCase().includes(this.search.toLowerCase()); //post.text.match(this.search);
+        return post.text.toLowerCase().includes(this.search.toLowerCase()) || post.headText.toLowerCase().includes(this.search.toLowerCase()); //post.text.match(this.search);
       });
     }
   },
@@ -69,7 +72,12 @@ export default {
     async deletePost(id) {
       await PostService.deletePost(id);
       this.posts = await PostService.getPosts();
-    }
+    },
+    markComplete(component)
+    {
+      this.posts.completed = !this.posts.completed;
+      this.posts.completed = component;
+    },
   }
 };
 </script>
