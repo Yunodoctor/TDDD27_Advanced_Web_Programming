@@ -1,20 +1,18 @@
 <template>
   <div class="container">
     <h1>Latest Posts</h1>
-    <div class = "search-box">
-      <input type="text" v-model="search" placeholder="search posts">
+    <div class="search-box">
+      <input type="text" v-model="search" placeholder="Search posts">
     </div>
     <div class="create-post">
-      <label for="create-post">Title</label>
+      <!-- <label for="create-post">Title</label> -->
       <input type="headText" id="create-post" v-model="headText" placeholder="Title">
-
-      <label for="create-post">Say Something...</label>
-      <input type="text" id="create-post" v-model="text" placeholder="Create a post">
+      <input type="text" id="create-post" v-model="text" placeholder="Make a note">
 
       <button v-on:click="createPost">Post!</button>
     </div>
     <hr>
-    <p class="error" v-if= "error">{{ error }}</p>
+    <p class="error" v-if="error">{{ error }}</p>
     <div class="posts-container">
       <div
         class="post"
@@ -24,11 +22,9 @@
         v-bind:key="post._id"
         v-on:dblclick="deletePost(post._id)"
       >
+        <input type="checkbox" v-on:click="archivePost(posts, index), deletePost(post._id)">
         {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}` }}
-        <p class="headText">
-          <input type="checkbox" v-on:change="markComplete"><!-- ADDED THIS TO CHECKBOX-->
-          {{ post.headText }}
-        </p>
+        <p class="headText">{{ post.headText }}</p>
         <p class="text">{{ post.text }}</p>
       </div>
     </div>
@@ -43,10 +39,10 @@ export default {
   data() {
     return {
       posts: [],
-      error: '',
-      headText: '',
-      text: '',
-      search:''
+      error: "",
+      headText: "",
+      text: "",
+      search: ""
     };
   },
   async created() {
@@ -57,10 +53,12 @@ export default {
     }
   },
   computed: {
-    filteredPosts: function()
-    {
-      return this.posts.filter((post) => {
-        return post.text.toLowerCase().includes(this.search.toLowerCase()) || post.headText.toLowerCase().includes(this.search.toLowerCase()); //post.text.match(this.search);
+    filteredPosts: function() {
+      return this.posts.filter(post => {
+        return (
+          post.text.toLowerCase().includes(this.search.toLowerCase()) ||
+          post.headText.toLowerCase().includes(this.search.toLowerCase())
+        );
       });
     }
   },
@@ -73,11 +71,10 @@ export default {
       await PostService.deletePost(id);
       this.posts = await PostService.getPosts();
     },
-    markComplete(component)
-    {
-      this.posts.completed = !this.posts.completed;
-      this.posts.completed = component;
-    },
+    async archivePost(values, id) {
+      await PostService.archivePost(values[id].headText, values[id].text);
+      this.posts = await PostService.getPosts();
+    }
   }
 };
 </script>
@@ -113,7 +110,7 @@ div.created-at {
   color: white;
   font-size: 13px;
 }
-div.search-box{
+div.search-box {
   position: relative;
   padding-bottom: 20px;
 }

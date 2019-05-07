@@ -20,10 +20,34 @@ class PostService {
       }
     });
   }
+  static getArchive() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await axios.get("api/posts/archive");
+        const data = res.data;
+        resolve(
+          data.map(post => ({
+            ...post,
+            createdAt: new Date(post.createdAt)
+          }))
+        );
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
 
   // Create Post
   static insertPost(headText, text) {
     return axios.post(url, {
+      headText,
+      text
+    });
+  }
+
+  // Archive Post
+  static archivePost(headText, text) {
+    return axios.post("api/posts/archive", {
       headText,
       text
     });

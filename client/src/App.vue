@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
     <PostComponent/>
+    <ArchivePostComponent/>
   </div>
 </template>
 
 <script>
 import PostComponent from "./components/PostComponent.vue";
+import ArchivePostComponent from "./components/ArchivePostComponent.vue";
+//Vue Material
 
 export default {
   name: "app",
   components: {
-    PostComponent
+    PostComponent,
+    ArchivePostComponent
   }
 };
 </script>
