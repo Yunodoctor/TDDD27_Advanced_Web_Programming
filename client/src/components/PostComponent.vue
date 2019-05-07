@@ -8,7 +8,6 @@
       <!-- <label for="create-post">Title</label> -->
       <input type="headText" id="create-post" v-model="headText" placeholder="Title">
       <input type="text" id="create-post" v-model="text" placeholder="Make a note">
-
       <button v-on:click="createPost">Post!</button>
     </div>
     <hr>
