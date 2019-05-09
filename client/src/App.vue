@@ -1,25 +1,49 @@
 <template>
   <div id="app">
-    <button @click="current= 'PostComponent'">Home</button>
-    <button @click="current= 'ArchivePostComponent'">Archive</button>
-    <component :is="current"></component>
-    <!-- <PostComponent/>
-    <ArchivePostComponent/>-->
+    <b-navbar toggleable="md" type="dark" variant="dark">
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+      <b-navbar-brand to="/">Post Keep</b-navbar-brand>
+      <b-collapse is-nav id="nav_collapse">
+        <b-navbar-nav>
+          <b-nav-item to="/">Home</b-nav-item>
+          <b-nav-item to="/post-manager">Posts</b-nav-item>
+          <b-nav-item to="/archive">Archive</b-nav-item>
+          <b-nav-item href="#" @click.prevent="login" v-if="!activeUser">Login</b-nav-item>
+          <b-nav-item href="#" @click.prevent="logout" v-else>Logout</b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import PostComponent from "./components/PostComponent.vue";
-import ArchivePostComponent from "./components/ArchivePostComponent.vue";
-
 export default {
   name: "app",
   data() {
-    return { current: "PostComponent" };
+    return{
+      activeUser: null
+    }
   },
-  components: {
-    PostComponent,
-    ArchivePostComponent
+  async created () {
+    await this.refreshActiveUser()
+  },
+  watch: {
+    //Everytime a route is changed refresh the activeUser
+    '$route': 'refreshActiveUser'
+  },
+  methods: {
+    login () {
+      this.$auth.loginRedirect()
+    },
+    async refreshActiveUser () {
+      this.activeUser = await this.$auth.getUser()
+    },
+    async logout () {
+      await this.$auth.logout()
+      await this.refreshActiveUser()
+      this.$router.push('/')
+    }
   }
 };
 </script>
@@ -31,6 +55,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
