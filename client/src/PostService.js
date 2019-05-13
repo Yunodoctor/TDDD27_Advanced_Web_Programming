@@ -53,6 +53,16 @@ class PostService {
     });
   }
 
+  // Update Post
+  static updatePost(id, post) {
+    const { headText, text } = post; //Destructuring
+    return axios.post("api/posts/editPost", {
+      headText,
+      text,
+      id
+    });
+  }
+
   //Delete Post
   static deletePost(id) {
     return axios.delete(`${url}${id}`);

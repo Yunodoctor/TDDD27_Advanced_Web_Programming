@@ -25,6 +25,18 @@
         {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}` }}
         <p class="headText">{{ post.headText }}</p>
         <p class="text">{{ post.text }}</p>
+        <a href="#" @click.prevent="updatePost(post, post._id)">Edit</a>
+
+        <div v-if="post == editedPost">
+          <form action @submit.prevent="savePost(post)">
+            <div class="mb-6 p-4 bg-white rounded border border-grey-light mt-4 bg-black">
+              <div class="mb-6">
+                <input class="input" v-model="post.text">
+              </div>
+              <input type="submit" value="Update Post">
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -41,7 +53,9 @@ export default {
       error: "",
       headText: "",
       text: "",
-      search: ""
+      search: "",
+      editedPost: "",
+      id: ""
     };
   },
   async created() {
@@ -73,6 +87,17 @@ export default {
     async archivePost(values, id) {
       await PostService.archivePost(values[id].headText, values[id].text);
       this.posts = await PostService.getPosts();
+    },
+    async updatePost(post, id) {
+      console.log("Vsg ändra posten");
+      this.editedPost = post;
+      this.id = id;
+    },
+    async savePost() {
+      await PostService.updatePost(this.id, this.editedPost);
+      this.posts = await PostService.getPosts();
+      this.editedPost = "";
+      this.id = "";
     }
   }
 };

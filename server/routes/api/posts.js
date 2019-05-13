@@ -1,5 +1,6 @@
 const express = require("express");
 const mongodb = require("mongodb");
+var ObjectId = require("mongodb").ObjectID;
 
 const router = express.Router();
 
@@ -29,13 +30,53 @@ router.post("/", async (req, res) => {
 
 //Archive Post
 router.post("/archive", async (req, res) => {
-  console.log(req.body);
   const archive = await ArchivePostsCollection();
   await archive.insertOne({
     headText: req.body.headText,
     text: req.body.text,
     createdAt: new Date()
   });
+  res.status(201).send();
+});
+
+//Update Post
+router.post("/editPost", async (req, res) => {
+  const posts = await loadPostsCollection();
+  await posts.findOneAndReplace(
+    { _id: { $eq: ObjectId(req.body.id) } },
+    {
+      $set: {
+        headText: req.body.headText,
+        text: req.body.text,
+        createdAt: new Date()
+      }
+    }
+  );
+  /*
+  await posts.findOneAndUpdate(
+    { _id: req.body.id },
+    { $set: { text: req.body.text, headText: req.body.headText } }
+  );
+    */
+  //console.log(posts);
+
+  // await posts.findOneAndUpdate({
+  //   headText: req.body.headText,
+  //   text: req.body.text,
+  //   createdAt: new Date()
+  //const testPost = await posts.find(req.body.id);
+  //console.log(testPost);
+  /*
+  await posts
+    .updateOne(
+      { _id: ObjectId`(${req.body.id})` },
+      { $rename: { text: req.body.text, headText: req.body.headText } }
+    )
+    .then(res => {
+      console.log(res);
+    });
+    */
+  // });
   res.status(201).send();
 });
 
