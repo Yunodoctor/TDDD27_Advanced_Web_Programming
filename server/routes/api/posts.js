@@ -18,12 +18,13 @@ router.get("/archive", async (req, res) => {
 
 //Add Post
 router.post("/", async (req, res) => {
-  console.log("här läggs det till", req.body);
+  console.log("här läggs det till", req.body.user);
   const posts = await loadPostsCollection();
   await posts.insertOne({
     headText: req.body.headText,
     text: req.body.text,
-    createdAt: new Date()
+    createdAt: new Date(),
+    activeUser: req.body.user
   });
   res.status(201).send();
 });

@@ -1,8 +1,15 @@
 import axios from "axios";
+import Vue from 'vue';
 
 const url = "api/posts/";
 
+const client = axios.create({
+  baseURL: 'http://localhost:5000/api/posts',
+  json: true
+})
+
 class PostService {
+
   // Get Posts
   static getPosts() {
     return new Promise(async (resolve, reject) => {
@@ -38,10 +45,12 @@ class PostService {
   }
 
   // Create Post
-  static insertPost(headText, text) {
+  static insertPost(headText, text, user) {
+    console.log("USER: ", user);
     return axios.post(url, {
       headText,
-      text
+      text,
+      user
     });
   }
 

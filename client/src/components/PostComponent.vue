@@ -77,7 +77,8 @@ export default {
   },
   methods: {
     async createPost() {
-      await PostService.insertPost(this.headText, this.text);
+      this.activeUser = await this.$auth.getUser();
+      await PostService.insertPost(this.headText, this.text, this.activeUser);
       this.posts = await PostService.getPosts();
     },
     async deletePost(id) {
