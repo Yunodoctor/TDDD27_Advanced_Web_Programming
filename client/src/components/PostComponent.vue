@@ -37,24 +37,6 @@
             </div>
           </form>
         </div>
-        <!-- Added this and down -->
-        <div class="colorChangeContainer">
-          <div class="from_field">
-            <div class="from__input">
-              <swatches
-                v-model="color"
-                :colors="colors"
-                row-length="6"
-                swatch-size="35"
-                background-color="color"
-                showBoarder="true"
-                inline="true"
-                popover-to="right"
-              ></swatches>
-            </div>
-          </div>
-        </div>
-        <!-- Added this -->
       </div>
     </div>
   </div>
@@ -62,12 +44,9 @@
 
 <script>
 import PostService from "../PostService";
-import Swatches from "vue-swatches"; //Added this
-import "vue-swatches/dist/vue-swatches.min.css";
 
 export default {
   name: "PostComponent",
-  components: { Swatches }, //Added this
   data() {
     return {
       posts: [],
@@ -76,9 +55,7 @@ export default {
       text: "",
       search: "",
       editedPost: "",
-      id: "",
-      color: "",
-      colors: [["#F64272", "#8b5aff", "#51e5db", "#ffa51a", ""]] //Added this
+      id: ""
     };
   },
   async created() {
