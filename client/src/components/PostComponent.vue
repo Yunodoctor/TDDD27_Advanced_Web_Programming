@@ -37,6 +37,24 @@
             </div>
           </form>
         </div>
+        <!-- Added this and down -->
+        <div class="colorChangeContainer">
+          <div class="from_field">
+            <div class="from__input">
+              <swatches
+                v-model="color"
+                :colors="colors"
+                row-length="6"
+                swatch-size="35"
+                background-color="color"
+                showBoarder="true"
+                inline="true"
+                popover-to="right"
+              ></swatches>
+            </div>
+          </div>
+        </div>
+        <!-- Added this -->
       </div>
     </div>
   </div>
@@ -44,9 +62,12 @@
 
 <script>
 import PostService from "../PostService";
+import Swatches from "vue-swatches"; //Added this
+import "vue-swatches/dist/vue-swatches.min.css";
 
 export default {
   name: "PostComponent",
+  components: { Swatches }, //Added this
   data() {
     return {
       posts: [],
@@ -55,12 +76,15 @@ export default {
       text: "",
       search: "",
       editedPost: "",
-      id: ""
+      id: "",
+      color: "",
+      colors: [["#F64272", "#8b5aff", "#51e5db", "#ffa51a", ""]] //Added this
     };
   },
   async created() {
     try {
-      this.posts = await PostService.getPosts();
+      this.activeUser = await this.$auth.getUser();
+      this.posts = await PostService.getPosts(this.activeUser);
     } catch (err) {
       this.error = err.message;
     }
@@ -79,24 +103,30 @@ export default {
     async createPost() {
       this.activeUser = await this.$auth.getUser();
       await PostService.insertPost(this.headText, this.text, this.activeUser);
-      this.posts = await PostService.getPosts();
+      this.posts = await PostService.getPosts(this.activeUser);
     },
     async deletePost(id) {
-      await PostService.deletePost(id);
-      this.posts = await PostService.getPosts();
+      this.activeUser = await this.$auth.getUser();
+      await PostService.deletePost(id, this.activeUser), this.activeUser;
+      this.posts = await PostService.getPosts(this.activeUser);
     },
     async archivePost(values, id) {
-      await PostService.archivePost(values[id].headText, values[id].text);
-      this.posts = await PostService.getPosts();
+      this.activeUser = await this.$auth.getUser();
+      await PostService.archivePost(
+        values[id].headText,
+        values[id].text,
+        this.activeUser
+      );
+      this.posts = await PostService.getPosts(this.activeUser);
     },
     async updatePost(post, id) {
-      console.log("Vsg ändra posten");
       this.editedPost = post;
       this.id = id;
     },
     async savePost() {
-      await PostService.updatePost(this.id, this.editedPost);
-      this.posts = await PostService.getPosts();
+      this.activeUser = await this.$auth.getUser();
+      await PostService.updatePost(this.id, this.editedPost, this.activeUser);
+      this.posts = await PostService.getPosts(this.activeUser);
       this.editedPost = "";
       this.id = "";
     }

@@ -56,15 +56,22 @@ export default {
   },
   methods: {
     async createPost() {
-      await PostService.insertPost(this.headText, this.text);
+      this.activeUser = await this.$auth.getUser();
+      await PostService.insertPost(this.headText, this.text, this.activeUser);
       this.posts = await PostService.getArchive();
     },
     async deletePost(id) {
-      await PostService.deletePost(id);
+      this.activeUser = await this.$auth.getUser();
+      await PostService.deletePost(id, this.activeUser);
       this.posts = await PostService.getArchive();
     },
     async archivePost(values, id) {
-      await PostService.archivePost(values[id].headText, values[id].text);
+      this.activeUser = await this.$auth.getUser();
+      await PostService.archivePost(
+        values[id].headText,
+        values[id].text,
+        this.activeUser
+      );
       this.posts = await PostService.getArchive();
     }
   }
