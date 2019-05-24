@@ -99,10 +99,9 @@ router.post("/archive", async (req, res) => {
       headText: req.body.headText,
       text: req.body.text,
       createdAt: new Date(),
-      postColor: "" 
+      postColor: ""
     });
-    if(dbData.archive)
-    {
+    if (dbData.archive) {
       console.log("Archiving post to Archive!!");
       dbData.archive.push(newPost);
     }
@@ -173,12 +172,12 @@ router.post("/editPost", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const id = req.params.id;
   const dbData = await userSchema.findOne({ userEmail: req.query.email });
-  
+
   console.log("Removed");
 
   if (dbData) {
-    dbData.post.pull({ _id: id});
-    dbData.save().then(dbData => res.json(dbData.post));
+    dbData.post.pull({ _id: id });
+    await dbData.save().then(dbData => res.json(dbData.post));
   }
   res.status(200).send();
 });
