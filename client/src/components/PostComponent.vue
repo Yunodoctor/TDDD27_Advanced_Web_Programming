@@ -89,12 +89,8 @@ export default {
     },
     async archivePost(values, id) {
       this.activeUser = await this.$auth.getUser();
-      await PostService.archivePost(
-        values[id].headText,
-        values[id].text,
-        this.activeUser
-      );
-      this.posts = await PostService.getPosts(this.activeUser);
+      await PostService.archivePost(values[id].headText, values[id].text, this.activeUser);
+      await PostService.deletePost(id, this.activeUser), this.activeUser;
     },
     async updatePost(post, id) {
       this.editedPost = post;

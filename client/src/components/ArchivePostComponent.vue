@@ -39,7 +39,10 @@ export default {
   },
   async created() {
     try {
-      this.posts = await PostService.getArchive();
+      this.activeUser = await this.$auth.getUser();
+      console.log("this.activeUser", this.activeUser);
+      
+      this.posts = await PostService.getArchive(this.activeUser);
     } catch (err) {
       this.error = err.message;
     }

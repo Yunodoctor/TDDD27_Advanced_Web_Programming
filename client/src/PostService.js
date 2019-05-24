@@ -1,12 +1,6 @@
 import axios from "axios";
-import Vue from "vue";
 
 const url = "api/posts/";
-
-const client = axios.create({
-  baseURL: "http://localhost:5000/api/posts",
-  json: true
-});
 
 class PostService {
   // Get Posts
@@ -30,11 +24,13 @@ class PostService {
       }
     });
   }
-  static getArchive() {
+  // Archive Posts
+  static getArchive(user) {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log("getarchive: " + user);
-        const res = await axios.get("api/posts/archive");
+        const res = await axios.get("api/posts/archive", {
+          params: { user: user.name, email: user.email }
+        });
         const data = res.data;
         resolve(
           data.map(post => ({
@@ -60,10 +56,10 @@ class PostService {
 
   // Archive Post
   static archivePost(headText, text, user) {
-    console.log("ArchivePost: " + user);
     return axios.post("api/posts/archive", {
       headText,
-      text
+      text,
+      user
     });
   }
 

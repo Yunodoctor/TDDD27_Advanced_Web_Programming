@@ -13,7 +13,8 @@ var postSchema = new Schema({
 var userSchema = new Schema({
   userEmail: String,
   userName: String,
-  post: [postSchema]
+  post: [postSchema],
+  archive: [postSchema]
 });
 
 module.exports = userSchema = mongoose.model("Users", userSchema);

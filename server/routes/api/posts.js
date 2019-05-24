@@ -24,8 +24,8 @@ router.get("/", async (req, res) => {
     const newUser = new userSchema({
       userEmail: email,
       userName: user,
-      posts: [""],
-      archive: [""]
+      post: [],
+      archive: []
     });
 
     //save the new user to the databse, then send back the posts to the client
@@ -33,10 +33,28 @@ router.get("/", async (req, res) => {
   }
 }); //Reference to route
 
-//Get Posts to Archive Post
+//Get Archive Post
 router.get("/archive", async (req, res) => {
-  const archive = await ArchivePostsCollection();
-  res.send(await archive.find({}).toArray());
+  const { email, user } = req.query;
+  const dbData = await userSchema.findOne({ userEmail: req.query.email });
+
+  if (dbData) {
+    //if there is a user, return the posts
+    console.log("user was found...");
+    res.json(dbData.archive);
+  } else {
+    console.log("there was no user?");
+    //If there is no user, create a new one
+    const newUser = new userSchema({
+      userEmail: email,
+      userName: user,
+      post: [],
+      archive: []
+    });
+
+    //save the new user to the databse, then send back the posts to the client
+    await newUser.save().then(newUser => res.json(newUser.archive));
+  }
 }); //Reference to route
 
 //Add Post
@@ -50,6 +68,7 @@ router.post("/", async (req, res) => {
       createdAt: new Date(),
       postColor: ""
     });
+
     dbData.post.push(newPost);
     await dbData.save();
   }
@@ -73,12 +92,23 @@ router.post("/", async (req, res) => {
 });
 //Archive Post
 router.post("/archive", async (req, res) => {
-  const archive = await ArchivePostsCollection();
-  await archive.insertOne({
-    headText: req.body.headText,
-    text: req.body.text,
-    createdAt: new Date()
-  });
+  const dbData = await userSchema.findOne({ userEmail: req.body.user.email });
+
+  if (dbData) {
+    const newPost = new postSchema({
+      headText: req.body.headText,
+      text: req.body.text,
+      createdAt: new Date(),
+      postColor: "" 
+    });
+    if(dbData.archive)
+    {
+      console.log("Archiving post to Archive!!");
+      dbData.archive.push(newPost);
+    }
+
+    await dbData.save();
+  }
   res.status(201).send();
 });
 
@@ -141,12 +171,16 @@ router.post("/editPost", async (req, res) => {
 
 //Delete Post
 router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
   const dbData = await userSchema.findOne({ userEmail: req.query.email });
-  console.log("removed");
+  
+  console.log("Removed");
+
   if (dbData) {
-    dbData.post.pull({ _id: id });
-    dbData.save().then(user => res.json(user.post));
+    dbData.post.pull({ _id: id});
+    dbData.save().then(dbData => res.json(dbData.post));
   }
+  res.status(200).send();
 });
 
 /*

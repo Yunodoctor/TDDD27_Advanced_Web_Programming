@@ -42,7 +42,7 @@ let router = new Router({
       name: 'archive',
       component: ArchivePostComponent,
       meta: {
-          equiresAuth: true
+          requiresAuth: true
         }
       }
   ]
