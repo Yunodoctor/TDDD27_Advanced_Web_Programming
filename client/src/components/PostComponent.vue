@@ -2,13 +2,16 @@
   <div class="container">
     <h1>Latest Posts</h1>
     <div class="search-box">
-      <input type="text" v-model="search" placeholder="Search posts">
+      
+      <input type="searchtext" v-model="search" placeholder="Search posts">
     </div>
     <div class="create-post">
       <!-- <label for="create-post">Title</label> -->
-      <input type="headText" id="create-post" v-model="headText" placeholder="Title">
-      <input type="text" id="create-post" v-model="text" placeholder="Make a note">
-      <button v-on:click="createPost">Post!</button>
+      <div class="post-box">
+        <input type="headText" id="create-post" v-model="headText" placeholder="Title"><br>
+        <input type="text" id="create-post" v-model="text" placeholder="Make a note">
+      </div>
+      <button class="post-button" v-on:click="createPost">Post!</button>
     </div>
     <hr>
     <p class="error" v-if="error">{{ error }}</p>
@@ -18,14 +21,16 @@
         v-for="(post, index) in filteredPosts"
         v-bind:item="posts"
         v-bind:index="index"
-        v-bind:key="post._id"
-        v-on:dblclick="deletePost(post._id)"
-      >
-        <input type="checkbox" v-on:click="archivePost(posts, index), deletePost(post._id)">
+        v-bind:key="post._id" 
+        >
         {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}` }}
         <p class="headText">{{ post.headText }}</p>
         <p class="text">{{ post.text }}</p>
-        <a href="#" @click.prevent="updatePost(post, post._id)">Edit</a>
+
+        <md-button class="edit-button" v-on:click="updatePost(post, post._id)">
+          <edit-icon>Edit</edit-icon>
+        </md-button>
+
 
         <div v-if="post == editedPost">
           <form action @submit.prevent="savePost(post)">
@@ -37,11 +42,17 @@
             </div>
           </form>
         </div>
+              <md-button class="delete-button" v-on:click="deletePost(post._id)">
+          <delete-icon>Delete</delete-icon>
+        </md-button>
+        <md-button class="archive-button" v-on:click="archivePost(posts, index), deletePost(post._id)">
+          <archive-icon>Archive</archive-icon>
+        </md-button>
       </div>
     </div>
   </div>
+  
 </template>
-
 <script>
 import PostService from "../PostService";
 
@@ -113,8 +124,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 div.container {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 900px;
+
 }
 
 p.error {
@@ -126,10 +137,13 @@ p.error {
 
 div.post {
   position: relative;
-  border: 1px solid #5bd658;
-  background-color: #bcffb8;
+  border-radius: 10px;
+  background-color: #ff8c1a;
   padding: 10px 10px 30px 10px;
-  margin-bottom: 15px;
+  margin: 5px 5px 5px 5px;
+  width: 280px;
+  display:inline-block;
+  float:left;
 }
 
 div.created-at {
@@ -146,6 +160,73 @@ div.search-box {
   padding-bottom: 20px;
 }
 
+div.create-post{
+  position: relative;
+  border-radius: 15px; 
+}
+
+div.post-box{
+  margin: auto;
+  text-align: left;
+  width: 400px;
+  border-radius: 4px;
+  border: 2px solid #ccc;
+  margin: 5px 4px 4px 5px;
+}
+
+input[type=text]{
+  width: 200px;
+  border: 1px solid white;
+  font-weight: normal;
+  margin: 5px 4px 4px 5px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+input[type=text]:focus {
+  width: 98%;
+}
+input[type=headText]{
+  width: 200px;
+  border: 1px solid white;
+  font-weight: bold;
+  margin: 5px 4px 4px 5px;
+}
+input[type=searchtext]{
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 10px 15px 10px 20px;
+  box-shadow:  0px 0px 6px 2px rgba(0,0,0,0.2);
+  -webkit-transition: width 0.6s ease-in-out;
+  transition: width 0.6s ease-in-out;
+}
+input[type=searchtext]:focus {
+  width: 50%;
+}
+.post-button{
+  border-radius: 4px;
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+.post-button:hover{
+  background-color: #4CAF50;
+  color: white;
+}
+.delete-button{
+  position: absolute;
+  margin: 1px 1px 1px 1px;
+  top: 0;
+  right: 0;
+}
+.archive-button{
+  position: absolute;
+  margin: 1px 1px 1px 1px;
+  top: 0%;
+  right: 5%;
+}
+.edit-button{
+  margin: 1px 1px 1px 1px;
+}
 p.text {
   font-size: 12px;
   font-weight: 700;

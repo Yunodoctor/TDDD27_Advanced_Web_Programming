@@ -5,7 +5,6 @@
       <b-navbar-brand to="/">Post Keep</b-navbar-brand>
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav>
-          <b-nav-item to="/">Home</b-nav-item>
           <b-nav-item to="/post-manager">Posts</b-nav-item>
           <b-nav-item to="/archive">Archive</b-nav-item>
           <b-nav-item href="#" @click.prevent="login" v-if="!activeUser">Login</b-nav-item>

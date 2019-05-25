@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Archive Posts</h1>
     <div class="search-box">
-      <input type="text" v-model="search" placeholder="Search posts">
+      <input type="searchtext" v-model="search" placeholder="Search posts">
     </div>
     <hr>
     <p class="error" v-if="error">{{ error }}</p>
@@ -84,8 +84,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 div.container {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 900px;
 }
 
 p.error {
@@ -97,10 +96,13 @@ p.error {
 
 div.post {
   position: relative;
-  border: 1px solid #5bd658;
-  background-color: #bcffb8;
+  border-radius: 10px;
+  background-color: #ff8c1a;
   padding: 10px 10px 30px 10px;
-  margin-bottom: 15px;
+  margin: 5px 5px 5px 5px;
+  width: 280px;
+  display:inline-block;
+  float:left;
 }
 
 div.created-at {
@@ -115,6 +117,17 @@ div.created-at {
 div.search-box {
   position: relative;
   padding-bottom: 20px;
+}
+input[type=searchtext]{
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  padding: 10px 15px 10px 20px;
+  box-shadow:  0px 0px 6px 2px rgba(0,0,0,0.2);
+  -webkit-transition: width 0.6s ease-in-out;
+  transition: width 0.6s ease-in-out;
+}
+input[type=searchtext]:focus {
+  width: 50%;
 }
 
 p.text {
