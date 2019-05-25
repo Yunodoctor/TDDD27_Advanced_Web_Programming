@@ -6,13 +6,13 @@ var postSchema = new Schema({
   headText: String,
   text: String,
   createdAt: String,
-  date: String,
-  postColor: String
+  date: String
 });
 
 var userSchema = new Schema({
   userEmail: String,
   userName: String,
+  themeColor: String,
   post: [postSchema],
   archive: [postSchema]
 });

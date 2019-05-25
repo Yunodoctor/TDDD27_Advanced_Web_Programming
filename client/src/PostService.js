@@ -13,12 +13,12 @@ class PostService {
           params: { user: user.name, email: user.email }
         });
         const data = res.data;
-        resolve(
-          data.map(post => ({
-            ...post,
-            createdAt: new Date(post.createdAt)
-          }))
-        );
+        const postData = data.post.map(post => ({
+          ...post,
+          createdAt: new Date(post.createdAt)
+        }));
+        data.themeColor;
+        resolve([postData, data.themeColor]);
       } catch (err) {
         reject(err);
       }
@@ -79,6 +79,14 @@ class PostService {
   static deletePost(id, user) {
     return axios.delete(`${url}${id}`, {
       params: { user: user.name, email: user.email }
+    });
+  }
+
+  // UpdateColor Post
+  static updateTheme(user, colorPost) {
+    return axios.post(url + "theme", {
+      user,
+      colorPost
     });
   }
 }

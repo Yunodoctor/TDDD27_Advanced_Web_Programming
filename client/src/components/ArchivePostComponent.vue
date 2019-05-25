@@ -40,8 +40,6 @@ export default {
   async created() {
     try {
       this.activeUser = await this.$auth.getUser();
-      console.log("this.activeUser", this.activeUser);
-      
       this.posts = await PostService.getArchive(this.activeUser);
     } catch (err) {
       this.error = err.message;
@@ -101,8 +99,8 @@ div.post {
   padding: 10px 10px 30px 10px;
   margin: 5px 5px 5px 5px;
   width: 280px;
-  display:inline-block;
-  float:left;
+  display: inline-block;
+  float: left;
 }
 
 div.created-at {
@@ -118,15 +116,15 @@ div.search-box {
   position: relative;
   padding-bottom: 20px;
 }
-input[type=searchtext]{
+input[type="searchtext"] {
   border-radius: 4px;
   border: 1px solid #ccc;
   padding: 10px 15px 10px 20px;
-  box-shadow:  0px 0px 6px 2px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.2);
   -webkit-transition: width 0.6s ease-in-out;
   transition: width 0.6s ease-in-out;
 }
-input[type=searchtext]:focus {
+input[type="searchtext"]:focus {
   width: 50%;
 }
 

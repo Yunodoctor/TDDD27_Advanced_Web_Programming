@@ -17,13 +17,14 @@ router.get("/", async (req, res) => {
     //if there is a user, return the posts
     console.log("user was found...");
     //console.log(dbData.post.find());
-    res.json(dbData.post);
+    res.json(dbData);
   } else {
     console.log("there was no user?");
     //If there is no user, create a new one
     const newUser = new userSchema({
       userEmail: email,
       userName: user,
+      themeColor: "",
       post: [],
       archive: []
     });
@@ -48,6 +49,7 @@ router.get("/archive", async (req, res) => {
     const newUser = new userSchema({
       userEmail: email,
       userName: user,
+      themeColor: "",
       post: [],
       archive: []
     });
@@ -65,8 +67,7 @@ router.post("/", async (req, res) => {
     const newPost = new postSchema({
       headText: req.body.headText,
       text: req.body.text,
-      createdAt: new Date(),
-      postColor: ""
+      createdAt: new Date()
     });
 
     dbData.post.push(newPost);
@@ -98,8 +99,7 @@ router.post("/archive", async (req, res) => {
     const newPost = new postSchema({
       headText: req.body.headText,
       text: req.body.text,
-      createdAt: new Date(),
-      postColor: ""
+      createdAt: new Date()
     });
     if (dbData.archive) {
       console.log("Archiving post to Archive!!");
@@ -122,7 +122,6 @@ router.post("/editPost", async (req, res) => {
       post.headText = req.body.headText;
       post.text = req.body.text;
       post.createdAt = new Date();
-      //Add color
     }
   });
 
@@ -180,6 +179,18 @@ router.delete("/:id", async (req, res) => {
     await dbData.save().then(dbData => res.json(dbData.post));
   }
   res.status(200).send();
+});
+
+//Update color
+router.post("/theme", async (req, res) => {
+  const dbData = await userSchema.findOne({ userEmail: req.body.user.email });
+
+  if (dbData) {
+    dbData.themeColor = req.body.colorPost;
+    console.log("updated color");
+  }
+
+  await dbData.save();
 });
 
 /*
