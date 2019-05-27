@@ -89,6 +89,7 @@ class PostService {
       colorPost
     });
   }
+
 }
 
 export default PostService;

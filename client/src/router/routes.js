@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import PostComponent from '@/components/PostComponent'
-//import Home from '@/components/Home'
+import StartPage from '@/components/StartPage'
 import ArchivePostComponent from '@/components/ArchivePostComponent'
 import Auth from '@okta/okta-vue'
 
@@ -17,6 +17,11 @@ Vue.use(Router)
 let router = new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/',
+      name: 'startpage',
+      component: StartPage
+    },
     {
       //Rediredct user back to app
       path: '/implicit/callback',

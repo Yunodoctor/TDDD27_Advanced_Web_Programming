@@ -14,7 +14,7 @@ var userSchema = new Schema({
   userName: String,
   themeColor: String,
   post: [postSchema],
-  archive: [postSchema]
+  archive: [postSchema],
 });
 
 module.exports = userSchema = mongoose.model("Users", userSchema);

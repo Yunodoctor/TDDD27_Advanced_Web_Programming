@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-//const OktaJwtVerifier = require("@okta/jwt-verifier");
 const mongoose = require("mongoose");
 
 //Ini app with express
@@ -13,13 +12,7 @@ app.use(cors());
 
 //Link to file
 const posts = require("./routes/api/posts");
-/*
-const oktaJwtVerifier = new OktaJwtVerifier({
-  clientId: "0oakcz7giPgvQhucT356",
-  issuer: "https://dev-671702.okta.com/oauth2/default"
-});
-*/
-//Connecting to mongo
+
 mongoose
   .connect(
     'mongodb+srv://abc123:abc123%21@cluster0-afmwr.mongodb.net/Cluster0?retryWrites=true"',

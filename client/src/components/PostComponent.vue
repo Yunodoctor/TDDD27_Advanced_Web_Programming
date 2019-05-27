@@ -47,7 +47,7 @@
         <md-button
           class="archive-button"
           v-on:click="archivePost(posts, index), deletePost(post._id)"
-        >
+          >
           <archive-icon>Archive</archive-icon>
         </md-button>
       </div>
@@ -70,7 +70,7 @@ export default {
       search: "",
       editedPost: "",
       id: "",
-      colorPost: ""
+      colorPost: "",
     };
   },
   async created() {
@@ -144,17 +144,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+/* DIV PROPERTIES */
 div.container {
   max-width: 900px;
 }
-
 p.error {
   border: 1px solid #ff5b5f;
   background-color: #ffc5c1;
   padding: 10px;
   margin-bottom: 15px;
 }
-
 div.post {
   position: relative;
   border-radius: 10px;
@@ -162,10 +161,8 @@ div.post {
   padding: 10px 10px 30px 10px;
   margin: 5px 5px 5px 5px;
   width: 280px;
-  display: inline-block;
   float: left;
 }
-
 div.created-at {
   position: absolut;
   top: 0;
@@ -179,21 +176,21 @@ div.search-box {
   position: relative;
   padding-bottom: 20px;
 }
-
 div.create-post {
   position: relative;
   border-radius: 15px;
 }
-
 div.post-box {
-  margin: auto;
+  position: auto;
   text-align: left;
-  width: 400px;
+  width: 50%;
   border-radius: 4px;
   border: 2px solid #ccc;
-  margin: 5px 4px 4px 5px;
+  margin: auto;
+  margin-bottom: 15px;
 }
 
+/* INPUT PROPERTIES */
 input[type="text"] {
   width: 200px;
   border: 1px solid white;
@@ -222,11 +219,14 @@ input[type="searchtext"] {
 input[type="searchtext"]:focus {
   width: 50%;
 }
+
+/* BUTTON PROPERTIES */
 .post-button {
-  border-radius: 4px;
-  background-color: white;
-  color: black;
-  border: 2px solid #4caf50;
+  border-radius: 35px;
+  width: 100px;
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
 }
 .post-button:hover {
   background-color: #4caf50;
@@ -238,15 +238,35 @@ input[type="searchtext"]:focus {
   top: 0;
   right: 0;
 }
+.delete-button:hover{
+  color: #262626;
+}
 .archive-button {
   position: absolute;
   margin: 1px 1px 1px 1px;
   top: 0%;
   right: 5%;
 }
+.archive-button:hover{
+  color: #262626;
+}
+.pin-button {
+  position: absolute;
+  margin: 1px 1px 1px 1px;
+  top: 0%;
+  right: 10%;
+}
+.pin-button:hover{
+  color: #262626;
+}
 .edit-button {
   margin: 1px 1px 1px 1px;
 }
+.edit-button:hover{
+  color: #262626;
+}
+
+/* TEXT PROPERTIES */
 p.text {
   font-size: 12px;
   font-weight: 700;

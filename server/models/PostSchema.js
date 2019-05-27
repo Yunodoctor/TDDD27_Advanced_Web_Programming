@@ -6,7 +6,7 @@ var postSchema = new Schema({
   headText: String,
   text: String,
   createdAt: String,
-  date: String
+  date: String,
 });
 
 module.exports = postSchema = mongoose.model("Posts", postSchema);
