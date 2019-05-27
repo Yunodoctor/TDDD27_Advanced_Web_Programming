@@ -49,7 +49,7 @@ export default {
 
 <style>
 .container-image{
-  background-image: url('img/header_tinted.png');
+  background-image: url('../assets/header_tinted.png');
   background-repeat: no-repeat;
   min-width: 100%;
   min-height: 1000px;
