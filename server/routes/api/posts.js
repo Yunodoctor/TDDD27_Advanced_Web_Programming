@@ -7,8 +7,6 @@ const router = express.Router();
 
 //Get Posts
 router.get("/", async (req, res) => {
-  //const posts = await loadPostsCollection();
-
   const dbData = await userSchema.findOne({ userEmail: req.query.email });
 
   const { email, user } = req.query;
@@ -16,7 +14,6 @@ router.get("/", async (req, res) => {
   if (dbData) {
     //if there is a user, return the posts
     console.log("user was found...");
-    //console.log(dbData.post.find());
     res.json(dbData);
   } else {
     console.log("there was no user?");
@@ -74,23 +71,8 @@ router.post("/", async (req, res) => {
     await dbData.save();
   }
   res.status(201).send();
-
-  //await post.insertOne(newUser);
-  /*
-  await posts.insertOne({
-    
-  });
-  */
-  /*
-  if (newUser) {
-    console.log("user does exist");
-  } else {
-    console.log("user does not exist");
-  }
-
-  res.status(201).send();
-  */
 });
+
 //Archive Post
 router.post("/archive", async (req, res) => {
   const dbData = await userSchema.findOne({ userEmail: req.body.user.email });
@@ -126,44 +108,6 @@ router.post("/editPost", async (req, res) => {
   });
 
   await dbData.save();
-  /*
-    { _id: ObjectId(req.body.id) },
-    {
-      headText: req.body.headText,
-      text: req.body.text,
-      createdAt: new Date()
-    },
-    { runValidators: true }
-  );
-  */
-
-  //console.log(dbData.post);
-  //dbData.save();
-  /*
-  await posts.findOneAndUpdate(
-    { _id: req.body.id },
-    { $set: { text: req.body.text, headText: req.body.headText } }
-  );
-    */
-  //console.log(posts);
-
-  // await posts.findOneAndUpdate({
-  //   headText: req.body.headText,
-  //   text: req.body.text,
-  //   createdAt: new Date()
-  //const testPost = await posts.find(req.body.id);
-  //console.log(testPost);
-  /*
-  await posts
-    .updateOne(
-      { _id: ObjectId`(${req.body.id})` },
-      { $rename: { text: req.body.text, headText: req.body.headText } }
-    )
-    .then(res => {
-      console.log(res);
-    });
-    */
-  // });
   res.status(201).send();
 });
 
@@ -193,22 +137,4 @@ router.post("/theme", async (req, res) => {
   await dbData.save();
 });
 
-/*
-async function loadPostsCollection() {
-  const client = await mongodb.MongoClient.connect(
-    'mongodb+srv://abc123:abc123%21@cluster0-afmwr.mongodb.net/test?retryWrites=true"',
-    { useNewUrlParser: true }
-  );
-  return client.db("Cluster0").collection("posts");
-}
-
-async function ArchivePostsCollection() {
-  const client = await mongodb.MongoClient.connect(
-    'mongodb+srv://abc123:abc123%21@cluster0-afmwr.mongodb.net/test?retryWrites=true"',
-    { useNewUrlParser: true }
-  );
-  return client.db("Cluster0").collection("archive");
-}
-
-*/
 module.exports = router;

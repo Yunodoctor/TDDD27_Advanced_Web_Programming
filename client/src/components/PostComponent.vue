@@ -5,7 +5,6 @@
       <input type="searchtext" v-model="search" placeholder="Search posts">
     </div>
     <div class="create-post">
-      <!-- <label for="create-post">Title</label> -->
       <div class="post-box">
         <input type="headText" id="create-post" v-model="headText" placeholder="Title">
         <br>
@@ -47,7 +46,7 @@
         <md-button
           class="archive-button"
           v-on:click="archivePost(posts, index), deletePost(post._id)"
-          >
+        >
           <archive-icon>Archive</archive-icon>
         </md-button>
       </div>
@@ -70,7 +69,7 @@ export default {
       search: "",
       editedPost: "",
       id: "",
-      colorPost: "",
+      colorPost: ""
     };
   },
   async created() {
@@ -224,9 +223,9 @@ input[type="searchtext"]:focus {
 .post-button {
   border-radius: 35px;
   width: 100px;
-  background-color: white; 
-  color: black; 
-  border: 2px solid #4CAF50;
+  background-color: white;
+  color: black;
+  border: 2px solid #4caf50;
 }
 .post-button:hover {
   background-color: #4caf50;
@@ -238,7 +237,7 @@ input[type="searchtext"]:focus {
   top: 0;
   right: 0;
 }
-.delete-button:hover{
+.delete-button:hover {
   color: #262626;
 }
 .archive-button {
@@ -247,22 +246,13 @@ input[type="searchtext"]:focus {
   top: 0%;
   right: 5%;
 }
-.archive-button:hover{
-  color: #262626;
-}
-.pin-button {
-  position: absolute;
-  margin: 1px 1px 1px 1px;
-  top: 0%;
-  right: 10%;
-}
-.pin-button:hover{
+.archive-button:hover {
   color: #262626;
 }
 .edit-button {
   margin: 1px 1px 1px 1px;
 }
-.edit-button:hover{
+.edit-button:hover {
   color: #262626;
 }
 
