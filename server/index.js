@@ -15,7 +15,7 @@ const posts = require("./routes/api/posts");
 
 mongoose
   .connect(
-    'mongodb+srv://abc123:abc123%21@cluster0-afmwr.mongodb.net/Cluster0?retryWrites=true"',
+    '[Enter MongoDB-url here]',
     { useNewUrlParser: true }
   )
   .then(() => console.log("MongoDB is connected..."))
